@@ -1,0 +1,56 @@
+version: '3.4'
+
+services:
+  mssql-db:
+    image: mcr.microsoft.com/mssql/server
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=Mystr0ngP@ssw0rd!
+    healthcheck:
+      test: [
+        "CMD",
+        "/opt/mssql-tools/bin/sqlcmd",
+        "-Usa",
+        "-PMystr0ngP@ssw0rd!",
+        "-Q",
+        "select 1"]
+      interval: 1s
+      retries: 20
+    ports:
+      - "1433:1433"
+    volumes:
+      - mssqldb:/var/opt/mssql
+
+  dbmigrator:
+    build:
+      context: aspnet-core
+      dockerfile: src/SoftPaws.CatsManagement.DbMigrator/Dockerfile
+    depends_on:
+      mssql-db:
+        condition: service_healthy
+
+  api-host:
+    build:
+      context: aspnet-core
+      dockerfile: src/SoftPaws.CatsManagement.HttpApi.Host/Dockerfile
+    environment:
+      - ASPNETCORE_URLS=https://+:5050;http://+:5051;
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/appcert.pfx
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=awesomepass
+    ports:
+     - "5050:5050"
+     - "5051:5051"
+    volumes:
+      - ${APP_CERT_PATH}:/https/
+    depends_on:
+      dbmigrator:
+        condition: service_completed_successfully
+
+  angular:
+    build:
+      context: angular
+    ports:
+      - "4200:4200"
+
+volumes:
+  mssqldb:
