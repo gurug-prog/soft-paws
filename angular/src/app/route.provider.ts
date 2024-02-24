@@ -15,6 +15,13 @@ function configureRoutes(routesService: RoutesService) {
         order: 1,
         layout: eLayoutType.application,
       },
+      {
+        path: '/cats-management',
+        name: '::Menu:CatsManagement',
+        iconClass: 'fas fa-paw',
+        order: 2,
+        layout: eLayoutType.application,
+      },
     ]);
   };
 }
