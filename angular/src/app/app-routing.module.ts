@@ -9,8 +9,8 @@ const routes: Routes = [
   },
   {
     path: 'cats-management',
-    pathMatch: 'full',
-    loadChildren: () => import('./features/cats-management/cats-management.module').then(m => m.CatsManagementModule),
+    loadChildren: () =>
+      import('./features/cats-management/cats-management.module').then(m => m.CatsManagementModule),
   },
   {
     path: 'account',

@@ -4,9 +4,9 @@ import { CatsManagementComponent } from './cats-management.component';
 
 const routes: Routes = [
   { 
-    path: '', 
-    component: CatsManagementComponent 
-  }
+    path: '',
+    component: CatsManagementComponent
+  },
 ];
 
 @NgModule({

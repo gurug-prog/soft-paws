@@ -1,25 +1,24 @@
 <p-table [value]="tableData" [scrollable]="true" scrollHeight="400px">
-    <ng-template pTemplate="header">
-      <tr>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Age</th>
-        <th>Vaccinated</th>
-        <th>Actions</th>
-      </tr>
-    </ng-template>
-  
-    <ng-template pTemplate="body" let-cat>
-      <tr>
-        <td>{{ cat.firstname }}</td>
-        <td>{{ cat.lastname }}</td>
-        <td>{{ cat.age }}</td>
-        <td>{{ cat.vaccinated }}</td>
-        <td>
-          <p-button icon="pi pi-trash" [rounded]="true" severity="danger"></p-button>
-          <p-button icon="pi pi-pencil" [rounded]="true" severity="secondary"></p-button>
-        </td>
-      </tr>
-    </ng-template>
-  </p-table>
-  
+  <ng-template pTemplate="header">
+    <tr>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Age</th>
+      <th>Vaccinated</th>
+      <th>Actions</th>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="body" let-cat>
+    <tr>
+      <td>{{ cat.firstname }}</td>
+      <td>{{ cat.lastname }}</td>
+      <td>{{ cat.age }}</td>
+      <td>{{ cat.vaccinated }}</td>
+      <td>
+        <p-button icon="pi pi-trash" [rounded]="true" severity="danger"></p-button>
+        <p-button icon="pi pi-pencil" [rounded]="true" severity="secondary"></p-button>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
