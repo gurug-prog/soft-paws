@@ -31,22 +31,22 @@
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               {
-                "input": "node_modules/@volo/ngx-lepton-x.lite/assets/css/bootstrap-dim.css",
+                "input": "src/assets/styles/bootstrap-dim-layered.css",
                 "inject": false,
                 "bundleName": "bootstrap-dim"
               },
               {
-                "input": "node_modules/@volo/ngx-lepton-x.lite/assets/css/ng-bundle.css",
+                "input": "src/assets/styles/ng-bundle-layered.css",
                 "inject": false,
                 "bundleName": "ng-bundle"
               },
               {
-                "input": "node_modules/@volo/ngx-lepton-x.lite/assets/css/side-menu/layout-bundle.css",
+                "input": "src/assets/styles/layout-bundle-layered.css",
                 "inject": false,
                 "bundleName": "layout-bundle"
               },
               {
-                "input": "node_modules/@abp/ng.theme.lepton-x/assets/css/abp-bundle.css",
+                "input": "src/assets/styles/abp-bundle-layered.css",
                 "inject": false,
                 "bundleName": "abp-bundle"
               },
@@ -61,7 +61,7 @@
                 "bundleName": "font-bundle.rtl"
               },
               {
-                "input": "node_modules/@volo/ngx-lepton-x.lite/assets/css/font-bundle.css",
+                "input": "src/assets/styles/font-bundle-layered.css",
                 "inject": false,
                 "bundleName": "font-bundle"
               },
@@ -110,8 +110,21 @@
                 "inject": true,
                 "bundleName": "ngx-datatable-material"
               },
-              "node_modules/primeng/resources/themes/lara-light-blue/theme.css",
-              "node_modules/primeng/resources/primeng.min.css",
+              {
+                "input": "node_modules/primeng/resources/themes/lara-light-blue/theme.css",
+                "inject": true,
+                "bundleName": "lara-light-blue-theme"
+              },
+              {
+                "input": "node_modules/primeng/resources/primeng.css",
+                "inject": true,
+                "bundleName": "primeng"
+              },
+              {
+                "input": "node_modules/primeicons/primeicons.css",
+                "inject": true,
+                "bundleName": "primeicons"
+              },
               "src/styles.scss"
             ],
             "scripts": []
