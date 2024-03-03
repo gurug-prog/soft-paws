@@ -1,8 +1,50 @@
-/* You can add global styles to this file, and also import other style files */
-// @import "primeng/resources/themes/lara-light-blue/theme.css";
-// @import "primeng/resources/primeng.css";
-// @import 'bootstrap/dist/css/bootstrap.min.css' layer(bootstrap);
-// @import "primeicons/primeicons.css";
+@use "sass:meta";
+
+@layer primeng {
+  @include meta.load-css("../node_modules/@volo/ngx-lepton-x.lite/assets/css/bootstrap-dim.css");
+}
+
+// @layer primeng, ng-bundle, font-bundle, layout-bundle, abp-bundle;
+// @layer bootstrap, bootstrap-dim, primeng;
+// @use "sass:meta";
+// [class]:not([class^='p-'], [class*='p-']) {
+  // @include meta.load-css('../node_modules/@volo/ngx-lepton-x.lite/assets/css/bootstrap-dim.css');
+  // @include meta.load-css("../node_modules/@volo/ngx-lepton-x.lite/assets/css/bootstrap-dim.css");
+  // @include meta.load-css("assets/styles/ng-bundle-layered.css");
+  // @include meta.load-css("assets/styles/font-bundle-layered.css");
+  // @include meta.load-css("assets/styles/layout-bundle-layered.css");
+  // @include meta.load-css("assets/styles/abp-bundle-layered.css");
+// }
+// @layer qwerty {
+//   :not([class^='p-'], [class*='p-']) {
+//     // @include meta.load-css('../node_modules/@volo/ngx-lepton-x.lite/assets/css/bootstrap-dim.css');
+//     @include meta.load-css("../node_modules/@volo/ngx-lepton-x.lite/assets/css/bootstrap-dim.css");
+//     // @include meta.load-css("assets/styles/ng-bundle-layered.css");
+//     // @include meta.load-css("assets/styles/font-bundle-layered.css");
+//     // @include meta.load-css("assets/styles/layout-bundle-layered.css");
+//     // @include meta.load-css("assets/styles/abp-bundle-layered.css");
+//   }
+// }
+
+// @layer primeng, qwerty;
+// @import "../../../node_modules/@volo/ngx-lepton-x.lite/assets/css/bootstrap-dim.css"
+// @import "../node_modules/primeng/resources/themes/lara-light-blue/theme.css";
+// @import "../node_modules/primeng/resources/primeng.css";
+// @import "../node_modules/primeicons/primeicons.css";
+// @layer aliosha;
+
+// @layer qwerty :not([class^="p-"]) {
+//   @import 'assets/styles/styles-layers-order.scss';
+// }
+
+// @layer primeng, qwerty;
+
+// @import "assets/styles/styles-layers-order.scss";
+
+
+
+// @import '../node_modules/bootstrap/dist/css/bootstrap.min.css' layer(bootstrap);
+// @import '../node_modules/@volo/ngx-lepton-x.lite/assets/css/bootstrap-dim.css' layer(bootstrap-dim);
 
 
 @keyframes donut-spin {
