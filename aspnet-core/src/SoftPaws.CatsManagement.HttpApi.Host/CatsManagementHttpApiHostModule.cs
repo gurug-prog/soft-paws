@@ -66,7 +66,7 @@ public class CatsManagementHttpApiHostModule : AbpModule
         ConfigureAuthentication(context);
         ConfigureBundles();
         ConfigureUrls(configuration);
-        ConfigureConventionalControllers();
+        //ConfigureConventionalControllers();
         ConfigureVirtualFileSystem(context);
         ConfigureCors(context, configuration);
         ConfigureSwaggerServices(context, configuration);

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SoftPaws.CatsManagement.Entities;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.Data;
@@ -24,6 +25,7 @@ public class CatsManagementDbContext :
     ITenantManagementDbContext
 {
     /* Add DbSet properties for your Aggregate Roots / Entities here. */
+    public DbSet<CatEntity> Cats { get; set; }
 
     #region Entities from the modules
 

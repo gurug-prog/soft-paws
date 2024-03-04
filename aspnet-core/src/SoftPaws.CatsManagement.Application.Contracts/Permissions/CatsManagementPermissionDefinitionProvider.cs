@@ -9,8 +9,14 @@ public class CatsManagementPermissionDefinitionProvider : PermissionDefinitionPr
     public override void Define(IPermissionDefinitionContext context)
     {
         var myGroup = context.AddGroup(CatsManagementPermissions.GroupName);
-        //Define your own permissions here. Example:
-        //myGroup.AddPermission(CatsManagementPermissions.MyPermission1, L("Permission:MyPermission1"));
+        var catsPermission = myGroup.AddPermission(
+            CatsManagementPermissions.Cats.Default, L("Permission:Cats"));
+        catsPermission.AddChild(
+            CatsManagementPermissions.Cats.Create, L("Permission:Cats.Create"));
+        catsPermission.AddChild(
+            CatsManagementPermissions.Cats.Edit, L("Permission:Cats.Edit"));
+        catsPermission.AddChild(
+            CatsManagementPermissions.Cats.Delete, L("Permission:Cats.Delete"));
     }
 
     private static LocalizableString L(string name)

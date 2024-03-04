@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SoftPaws.CatsManagement.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
@@ -12,9 +13,11 @@ using Volo.Abp.EntityFrameworkCore;
 namespace SoftPaws.CatsManagement.Migrations
 {
     [DbContext(typeof(CatsManagementDbContext))]
-    partial class CatsManagementDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240304034237_Add_Cat_Entity")]
+    partial class Add_Cat_Entity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
