@@ -44,7 +44,7 @@ public class CatRepository : EfCoreRepository<CatsManagementDbContext, CatEntity
                 .Skip(skipCount)
                 .Take(maxResultCount);
 
-            var sortingPattern = sorting == "" ? "CreationTime" : sorting;
+            var sortingPattern = sorting == "" ? "CreationTime desc" : sorting;
             var catsSorted = catsFiltered.OrderBy(sortingPattern);
             var entities = await catsSorted.ToListAsync();
             result = new(entities.Count, entities);
