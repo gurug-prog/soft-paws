@@ -1,0 +1,31 @@
+<p-overlayPanel #op>
+    <ng-template pTemplate="content">
+      <h4>{{ title }}</h4>
+      <div class="mt-3">
+        <p-floatLabel>
+        <input id="name" type="text" pInputText [(ngModel)]="catDraft.dto.name" />
+        <label for="name">Name</label>
+      </p-floatLabel>
+      </div>
+      <div class="mt-3">
+        <p-floatLabel>
+          <input id="age" type="text" pInputText [(ngModel)]="catDraft.dto.age" />
+          <label for="age">Age</label>
+        </p-floatLabel>
+      </div>
+      <div class="mt-3">
+        <p-dropdown [options]="breed" [(ngModel)]="catDraft.selectedBreed"
+         optionLabel="name" [showClear]="true"  
+       [style]="{'width':'100%'}" placeholder="Select a breed">
+      </p-dropdown>
+      </div>       
+      <div class="mt-3">
+        <label for="binary" class="me-2">Vaccinated</label>
+        <p-checkbox [(ngModel)]="catDraft.dto.isVaccinated" [binary]="true" inputId="binary"></p-checkbox>
+    </div>
+    <div class="mt-3 d-flex justify-content-end">
+      <p-button icon="pi pi-times" severity="danger"></p-button>
+      <p-button (click)="saveCatDraft()" class="ms-2" icon="pi pi-check"></p-button>
+    </div> 
+    </ng-template>
+</p-overlayPanel>

@@ -6,16 +6,18 @@
     </div>
     <div class="col-3">
       <div class="w-100 me-5 p-1 ">
-        <p-dropdown [options]="breed" [(ngModel)]="selectedBreed"
+        <p-dropdown [options]="breed" 
          optionLabel="name" [showClear]="true"  
          [style]="{'width':'100%'}" placeholder="Select a breed"></p-dropdown>
       </div>
     </div>
     <div class="col me-5 pe-5 d-flex justify-content-end">
-      <p-button icon="pi pi-plus" [rounded]="true"></p-button>
+      <p-button (click)="startAddCat($event)" icon="pi pi-plus" [rounded]="true"></p-button>
     </div>
+   
   </div>
   <div class="m-5 p-5">
-    <app-table></app-table>
+    <app-table (catEditEvent)="startEditCat($event)"></app-table>
   </div>
 </div>
+<app-cat-editor [title]="editorTitle" [catDraft]="currentCat"></app-cat-editor>

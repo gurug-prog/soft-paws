@@ -1,23 +1,25 @@
-<p-table [value]="tableData" [scrollable]="true" scrollHeight="400px">
+<p-table [value]="tableData" [scrollable]="true" scrollHeight="400px" [loading]="loading" (onLazyLoad)="getCats($event)">
   <ng-template pTemplate="header">
     <tr>
-      <th>{{ '::CatTable:FirstName' | abpLocalization }}</th>
-      <th>Last Name</th>
-      <th>Age</th>
-      <th>Vaccinated</th>
-      <th>Actions</th>
+      <th>{{ '::CatTable:Name' | abpLocalization }}</th>
+      <th>{{ '::CatTable:Age' | abpLocalization }}</th>
+      <th>{{ '::CatTable:Breed' | abpLocalization }}</th>
+      <th>{{ '::CatTable:Vaccinated' | abpLocalization }}</th>
+      <th>{{ '::CatTable:CreatedAt' | abpLocalization }}</th> 
+      <th></th>
     </tr>
   </ng-template>
 
   <ng-template pTemplate="body" let-cat>
     <tr>
-      <td>{{ cat.firstname }}</td>
-      <td>{{ cat.lastname }}</td>
+      <td>{{ cat.name }}</td>
       <td>{{ cat.age }}</td>
-      <td>{{ cat.vaccinated }}</td>
+      <td>{{ getBreedName(cat.breed) }}</td>
+      <td>{{ cat.isVaccinated }}</td>
+      <td>{{ cat.creationTime | date:"short" }}</td>
       <td>
-        <p-button icon="pi pi-trash" [rounded]="true" severity="danger"></p-button>
-        <p-button icon="pi pi-pencil" [rounded]="true" severity="secondary"></p-button>
+        <p-button icon="pi pi-trash" [rounded]="true" severity="danger" (click)="removeCat(cat.id)"></p-button>
+        <p-button class="ms-2" icon="pi pi-pencil" [rounded]="true" severity="secondary" (click)="rowEdit($event, cat)"></p-button>
       </td>
     </tr>
   </ng-template>

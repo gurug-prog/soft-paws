@@ -11,24 +11,33 @@ import { SearchComponent } from './search/search.component';
 import { TableComponent } from './table/table.component';
 import { CatsManagementComponent } from './cats-management.component';
 import { SharedModule } from '../../shared/shared.module';
-
+import { InputTextModule } from 'primeng/inputtext';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { FloatLabelModule } from 'primeng/floatlabel';
+import { CheckboxModule } from 'primeng/checkbox';
+import { CatEditorComponent } from "./cat-editor/cat-editor/cat-editor.component";
 
 @NgModule({
-  declarations: [
-    HeaderComponent,
-    SearchComponent,
-    TableComponent,
-    CatsManagementComponent
-  ],
-  imports: [
-    SharedModule,
-    CommonModule,
-    FormsModule,
-    DropdownModule,
-    ButtonModule,
-    StyleClassModule,
-    TableModule,
-    CatsManagementRoutingModule,
-  ]
+    declarations: [
+        HeaderComponent,
+        SearchComponent,
+        TableComponent,
+        CatsManagementComponent,
+        CatEditorComponent
+    ],
+    imports: [
+        SharedModule,
+        CommonModule,
+        FormsModule,
+        DropdownModule,
+        ButtonModule,
+        StyleClassModule,
+        TableModule,
+        InputTextModule,
+        OverlayPanelModule,
+        FloatLabelModule,
+        CheckboxModule,
+        CatsManagementRoutingModule
+    ]
 })
 export class CatsManagementModule { }

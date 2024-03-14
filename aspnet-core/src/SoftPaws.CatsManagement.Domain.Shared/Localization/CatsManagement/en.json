@@ -10,6 +10,12 @@
     "Permission:Cats.Edit": "Edit cats",
     "Permission:Cats.Delete": "Delete cats",
     "Menu:CatsManagement": "Cats",
-    "CatTable:FirstName": "First Name"
+    "CatTable:Name": "Name",
+    "CatTable:Age": "Age",
+    "CatTable:Breed": "Breed",
+    "CatTable:Vaccinated": "Vaccinated",
+    "CatTable:CreatedAt": "Created at",
+    "CatTable:Actions": "Actions",
+    "Header:Kittens": "Kittens"
   }
 }

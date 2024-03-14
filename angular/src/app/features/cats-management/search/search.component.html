@@ -1,4 +1,7 @@
 <form class="ps-5 ms-5">
-    <input class="w-75" type="text" placeholder="Search...">
-    <button type="submit">Search</button>
+    <div class="p-input-icon-left">
+        <i class="pi pi-search"></i>
+        <input type="text" pInputText [(ngModel)]="value" />
+    </div>
+    <p-button class="p-4" icon="pi pi-search" [rounded]="true"></p-button>
 </form>
