@@ -2,22 +2,22 @@
     <app-header></app-header>
   <div class="row d-flex align-items-center">
     <div class="col-7">
-      <app-search></app-search>
+      <app-search (searchChange)="onSearchChange($event)"></app-search>
     </div>
     <div class="col-3">
       <div class="w-100 me-5 p-1 ">
-        <p-dropdown [options]="breed" 
-         optionLabel="name" [showClear]="true"  
+        <p-dropdown [options]="localizedBreeds"
+         optionLabel="name" [showClear]="true"
+         (onChange)="onBreedSelect($event.value.value)"
          [style]="{'width':'100%'}" placeholder="Select a breed"></p-dropdown>
       </div>
     </div>
     <div class="col me-5 pe-5 d-flex justify-content-end">
       <p-button (click)="startAddCat($event)" icon="pi pi-plus" [rounded]="true"></p-button>
     </div>
-   
   </div>
   <div class="m-5 p-5">
-    <app-table (catEditEvent)="startEditCat($event)"></app-table>
+    <app-table (catEditEvent)="startEditCat($event)" [searchQuery]="searchQuery" [localizedBreeds]="localizedBreeds" [breedFilter]="breedFilter"></app-table>
   </div>
 </div>
-<app-cat-editor [title]="editorTitle" [catDraft]="currentCat"></app-cat-editor>
+<app-cat-editor [title]="editorTitle" [catDraft]="currentCat.dto" [breedOptions]="localizedBreeds"></app-cat-editor>

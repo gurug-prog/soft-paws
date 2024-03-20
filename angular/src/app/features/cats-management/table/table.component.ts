@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CatBreed, CatDto, GetCatListDto } from '@proxy/cats';
 import { CatService } from '@proxy/controllers';
 import { catchError, finalize, first } from 'rxjs/operators';
@@ -7,8 +7,10 @@ import { PagedResultDto } from '@abp/ng.core';
 import { DatePipe } from '@angular/common';
 import { LazyLoadEvent } from 'primeng/api';
 
-
-// import { first } from 'rxjs';
+interface Breed {
+  value: CatBreed;
+  name: string;
+}
 
 @Component({
   selector: 'app-table',
@@ -16,35 +18,42 @@ import { LazyLoadEvent } from 'primeng/api';
   styleUrl: './table.component.scss'
 })
 export class TableComponent {
-  tableData: CatDto[] = []; 
-  cols: any[] = []; 
+  tableData: CatDto[] = [];
+  cols: any[] = [];
   loading: boolean = false;
   lastLoadEvent: LazyLoadEvent;
-  
-  breedNames: { [key: number]: string } = {
-    [CatBreed.Abyssinian]: 'Abyssinian',
-    [CatBreed.Bengal]: 'Bengal',
-    [CatBreed.BritishShorthair]: 'British Shorthair',
-    [CatBreed.EgyptianMau]: 'Egyptian Mau',
-    [CatBreed.EuropeanShorthair]: 'European Shorthair',
-    [CatBreed.MaineCoon]: 'Maine Coon',
-    [CatBreed.Persian]: 'Persian',
-    [CatBreed.Ragdoll]: 'Ragdoll',
-    [CatBreed.Sphynx]: 'Sphynx',
-    [CatBreed.YorkChocolate]: 'York Chocolate'
-  };
+  @Input()
+  localizedBreeds: Breed[];
+
+  // breedNames: { [key: number]: string } = {
+  //   [CatBreed.Abyssinian]: 'Abyssinian',
+  //   [CatBreed.Bengal]: 'Bengal',
+  //   [CatBreed.BritishShorthair]: 'British Shorthair',
+  //   [CatBreed.EgyptianMau]: 'Egyptian Mau',
+  //   [CatBreed.EuropeanShorthair]: 'European Shorthair',
+  //   [CatBreed.MaineCoon]: 'Maine Coon',
+  //   [CatBreed.Persian]: 'Persian',
+  //   [CatBreed.Ragdoll]: 'Ragdoll',
+  //   [CatBreed.Sphynx]: 'Sphynx',
+  //   [CatBreed.YorkChocolate]: 'York Chocolate'
+  // };
 
   @Output()
   catEditEvent: EventEmitter<[CatDto, Event]> = new EventEmitter<[CatDto, Event]>();
-  
+
+  @Input()
+  searchQuery: string;
+
+  @Input()
+  breedFilter: CatBreed[];
 
   constructor(
-    private readonly catService: CatService, 
+    private readonly catService: CatService,
     private readonly datePipe: DatePipe
     ) {}
 
   getBreedName(breed: CatBreed): string {
-    return this.breedNames[breed] || 'Unknown';
+    return this.localizedBreeds.find(uiBreed => uiBreed.value === breed).name || 'Unknown';
   }
 
   rowEdit(event, cat: CatDto) {
@@ -55,14 +64,15 @@ export class TableComponent {
   }
 
   getCats(event: LazyLoadEvent) {
+    console.dir(`getcats searchQuery: ${this.searchQuery}`);
     this.loading = true;
     this.lastLoadEvent = event;
     const getCatListDto: GetCatListDto = {
-        sorting: '', 
-        searchQuery: '', 
-        breedFilter: [], 
-        skipCount: 0, 
-        maxResultCount: 10 
+        sorting: '',
+        searchQuery: this.searchQuery,
+        breedFilter: this.breedFilter,
+        skipCount: 0,
+        maxResultCount: 10
     };
 
     this.catService.getCatsList(getCatListDto)
@@ -80,6 +90,10 @@ export class TableComponent {
       });
   }
 
+   refreshTable() {
+    this.getCats(this.lastLoadEvent);
+  }
+
   removeCat(id: string) {
       this.catService.removeCat(id)
         .pipe(first())
@@ -92,7 +106,7 @@ export class TableComponent {
           this.getCats(null);
         });
     }
-    
+
   ngOnInit() {
       // this.catService.getCat('589829D7-F85E-CFA3-E2FE-3A111D0DC0B6')
       // .pipe(first())
@@ -102,5 +116,5 @@ export class TableComponent {
       //     console.log(x.name)
       // });
       this.getCats(null);
-  } 
+  }
 }

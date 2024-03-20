@@ -1,12 +1,13 @@
-<p-table [value]="tableData" [scrollable]="true" scrollHeight="400px" [loading]="loading" (onLazyLoad)="getCats($event)">
+<p-table [value]="tableData" [loading]="loading" (onLazyLoad)="getCats($event)" 
+    [paginator]="true" [rows]="5">
   <ng-template pTemplate="header">
     <tr>
-      <th>{{ '::CatTable:Name' | abpLocalization }}</th>
-      <th>{{ '::CatTable:Age' | abpLocalization }}</th>
-      <th>{{ '::CatTable:Breed' | abpLocalization }}</th>
-      <th>{{ '::CatTable:Vaccinated' | abpLocalization }}</th>
-      <th>{{ '::CatTable:CreatedAt' | abpLocalization }}</th> 
-      <th></th>
+      <th pSortableColumn="name" style="width:15%">{{ '::CatTable:Name' | abpLocalization }} <p-sortIcon field="name"></p-sortIcon></th>
+      <th pSortableColumn="age" style="width:10%">{{ '::CatTable:Age' | abpLocalization }} <p-sortIcon field="age"></p-sortIcon></th>
+      <th pSortableColumn="breed" style="width:15%">{{ '::CatTable:Breed' | abpLocalization }} <p-sortIcon field="breed"></p-sortIcon></th>
+      <th pSortableColumn="isVaccinated" style="width:20%">{{ '::CatTable:Vaccinated' | abpLocalization }} <p-sortIcon field="isVaccinated"></p-sortIcon></th>
+      <th pSortableColumn="creationTime" style="width:20%">{{ '::CatTable:CreatedAt' | abpLocalization }} <p-sortIcon field="creationTime"></p-sortIcon></th> 
+      <th style="width:20%"></th>
     </tr>
   </ng-template>
 

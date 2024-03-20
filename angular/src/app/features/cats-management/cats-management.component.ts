@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild  } from '@angular/core';
 import { CatBreed, CatDto } from '@proxy/cats';
 import { CatService } from '@proxy/controllers';
 import { CatEditorComponent } from './cat-editor/cat-editor/cat-editor.component';
+import { LocalizationService } from '@abp/ng.core';
+import { TableComponent } from './table/table.component';
 
 interface TableCat {
   dto: CatDto;
@@ -9,7 +11,7 @@ interface TableCat {
 }
 
 interface Breed {
-  catBreed: CatBreed;
+  value: CatBreed;
   name: string;
 }
 
@@ -20,14 +22,43 @@ interface Breed {
 })
 export class CatsManagementComponent implements OnInit {
   title = 'table';
-  breed: Breed[] | undefined;
-  selectedBreed: Breed | undefined;
+  localizedBreeds: Breed[] | undefined;
   checked: boolean = false;
   currentCat: TableCat = this.createEmptyCat();
   editorTitle: string;
+  searchQuery: string;
+  breedFilter: CatBreed[] = [];
   @ViewChild(CatEditorComponent) catEditorRef;
+  @ViewChild(TableComponent) tableCompRef;
 
-  constructor(private readonly catService: CatService) {}
+  constructor(
+    private readonly catService: CatService,
+    private readonly localizationService: LocalizationService
+    ) {}
+
+  ngOnInit() {
+    this.localizedBreeds = Object.keys(CatBreed)
+      .filter(v => isNaN(Number(v)))
+      .map(name => {
+        return {
+          value: CatBreed[name as keyof typeof CatBreed] as unknown as CatBreed,
+          name: this.localizationService.instant(`::CatBreed:${name}`)
+        }
+      });
+  }
+
+  onBreedSelect(breed: CatBreed) {
+    console.dir(`Mangement breed`);
+    console.dir(breed);
+    this.breedFilter = [breed];
+    this.tableCompRef.refreshTable();
+  }
+
+  onSearchChange(query: string) {
+    console.log("onSearchChange " + query);
+    this.searchQuery = query;
+    this.tableCompRef.refreshTable();
+  }
 
   createEmptyCat(): TableCat {
     return {
@@ -35,9 +66,9 @@ export class CatsManagementComponent implements OnInit {
         age: 0,
         breed: CatBreed.None,
         isVaccinated: false,
-        id: "",
+        id: undefined,
         name: "",
-        creationTime: ""
+        creationTime: undefined
       },
       selectedBreed: null
     };
@@ -48,9 +79,9 @@ export class CatsManagementComponent implements OnInit {
       return;
     }
     const [cat, buttonEvent] = event;
+    console.log('edit cat:', cat);
     this.currentCat.dto = cat;
-    this.currentCat.selectedBreed = this.breed.find(x => x.catBreed === cat.breed);
-    this.selectedBreed = this.currentCat.selectedBreed;
+    this.currentCat.selectedBreed = this.localizedBreeds.find(x => x.value === cat.breed);
     this.editorTitle = "Edit a cat";
     this.catEditorRef.openEditor(buttonEvent);
   }
@@ -61,50 +92,5 @@ export class CatsManagementComponent implements OnInit {
     }
     this.editorTitle = "Add a cat";
     this.catEditorRef.openEditor(event);
-  }
-  
-  ngOnInit() {
-    this.breed = [
-      {
-        catBreed: CatBreed.Abyssinian,
-        name: "Abyssinian"
-      },
-      {
-        catBreed: CatBreed.Bengal,
-        name: "Bengal"
-      },
-      {
-        catBreed: CatBreed.BritishShorthair,
-        name: "British Shorthair"
-      },
-      {
-        catBreed: CatBreed.EgyptianMau,
-        name: "Egyptian Mau"
-      },
-      {
-        catBreed: CatBreed.EuropeanShorthair,
-        name: "European Shorthair"
-      },
-      {
-        catBreed: CatBreed.MaineCoon,
-        name: "Maine Coon"
-      },
-      {
-        catBreed: CatBreed.Persian,
-        name: "Persian"
-      },
-      {
-        catBreed: CatBreed.Ragdoll,
-        name: "Ragdoll"
-      },      
-      {
-        catBreed: CatBreed.Sphynx,
-        name: "Sphynx"
-      },      
-      {
-        catBreed: CatBreed.YorkChocolate,
-        name: "York Chocolate"
-      }
-    ]
   }
 }

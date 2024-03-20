@@ -1,7 +1,7 @@
 <form class="ps-5 ms-5">
     <div class="p-input-icon-left">
         <i class="pi pi-search"></i>
-        <input type="text" pInputText [(ngModel)]="value" />
+        <input type="text" name="value" pInputText [(ngModel)]="value" (input)="onSearch()"/>
     </div>
-    <p-button class="p-4" icon="pi pi-search" [rounded]="true"></p-button>
+    <p-button class="p-4" icon="pi pi-search" [rounded]="true" (click)="onSearch()"></p-button>
 </form>

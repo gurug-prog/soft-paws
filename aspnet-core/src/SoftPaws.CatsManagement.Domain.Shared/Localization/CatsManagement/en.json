@@ -16,6 +16,17 @@
     "CatTable:Vaccinated": "Vaccinated",
     "CatTable:CreatedAt": "Created at",
     "CatTable:Actions": "Actions",
-    "Header:Kittens": "Kittens"
+    "Header:Kittens": "Kittens",
+    "CatBreed:None": "Not selected",
+    "CatBreed:Abyssinian": "Abyssinian",
+    "CatBreed:BritishShorthair": "British Shorthair",
+    "CatBreed:Persian": "Persian",
+    "CatBreed:Bengal": "Bengal",
+    "CatBreed:MaineCoon": "Maine Coon",
+    "CatBreed:Ragdoll": "Ragdoll",
+    "CatBreed:EgyptianMau": "Egyptian Mau",
+    "CatBreed:EuropeanShorthair": "European Shorthair",
+    "CatBreed:Sphynx": "Sphynx",
+    "CatBreed:YorkChocolate": "York Chocolate"
   }
 }
