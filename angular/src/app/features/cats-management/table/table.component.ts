@@ -5,7 +5,7 @@ import { catchError, finalize, first } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { PagedResultDto } from '@abp/ng.core';
 import { DatePipe } from '@angular/common';
-import { LazyLoadEvent } from 'primeng/api';
+import { ConfirmationService, LazyLoadEvent, MessageService } from 'primeng/api';
 
 interface Breed {
   value: CatBreed;
@@ -15,29 +15,17 @@ interface Breed {
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
-  styleUrl: './table.component.scss'
+  styleUrl: './table.component.scss',
+  providers: [ConfirmationService, MessageService]
 })
 export class TableComponent {
   tableData: CatDto[] = [];
-  cols: any[] = [];
   loading: boolean = false;
   lastLoadEvent: LazyLoadEvent;
+  totalRecords: number;
   @Input()
   localizedBreeds: Breed[];
-
-  // breedNames: { [key: number]: string } = {
-  //   [CatBreed.Abyssinian]: 'Abyssinian',
-  //   [CatBreed.Bengal]: 'Bengal',
-  //   [CatBreed.BritishShorthair]: 'British Shorthair',
-  //   [CatBreed.EgyptianMau]: 'Egyptian Mau',
-  //   [CatBreed.EuropeanShorthair]: 'European Shorthair',
-  //   [CatBreed.MaineCoon]: 'Maine Coon',
-  //   [CatBreed.Persian]: 'Persian',
-  //   [CatBreed.Ragdoll]: 'Ragdoll',
-  //   [CatBreed.Sphynx]: 'Sphynx',
-  //   [CatBreed.YorkChocolate]: 'York Chocolate'
-  // };
-
+  
   @Output()
   catEditEvent: EventEmitter<[CatDto, Event]> = new EventEmitter<[CatDto, Event]>();
 
@@ -49,8 +37,31 @@ export class TableComponent {
 
   constructor(
     private readonly catService: CatService,
-    private readonly datePipe: DatePipe
+    private readonly datePipe: DatePipe,
+    private confirmationService: ConfirmationService, 
+    private messageService: MessageService
     ) {}
+
+    ngOnInit() {
+      this.loading = true;
+      this.totalRecords = 0;
+        //this.getCats(null);
+    }
+    
+    confirmDeleteCat(event: Event, id: string) {
+        this.confirmationService.confirm({
+            target: event.target as EventTarget,
+            message: 'Are you sure you want to delete cat?',
+            header: 'Confirmation',
+            icon: 'pi pi-exclamation-triangle',
+            acceptIcon:"none",
+            rejectIcon:"none",
+            rejectButtonStyleClass:"p-button-text",
+            accept: () => {
+                this.removeCat(id);
+            },
+        });
+    }
 
   getBreedName(breed: CatBreed): string {
     return this.localizedBreeds.find(uiBreed => uiBreed.value === breed).name || 'Unknown';
@@ -71,8 +82,8 @@ export class TableComponent {
         sorting: '',
         searchQuery: this.searchQuery,
         breedFilter: this.breedFilter,
-        skipCount: 0,
-        maxResultCount: 10
+        skipCount: event.first,
+        maxResultCount: event.first + event.rows
     };
 
     this.catService.getCatsList(getCatListDto)
@@ -86,6 +97,7 @@ export class TableComponent {
       )
       .subscribe((response: PagedResultDto<CatDto>) => {
           this.tableData = response.items;
+          this.totalRecords = response.totalCount;
           this.loading = false;
       });
   }
@@ -98,23 +110,14 @@ export class TableComponent {
       this.catService.removeCat(id)
         .pipe(first())
         .subscribe((response) => {
-          if(response) {
+          if(response === true) {
             console.log("Deleted: " + id);
+            this.messageService.add({ severity: 'success', summary: 'Deleted', detail: 'You have deleted the cat' });
           } else {
             console.log("Cannot delete cat with id: " + id);
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Cannot delete the cat' });
           }
           this.getCats(null);
         });
     }
-
-  ngOnInit() {
-      // this.catService.getCat('589829D7-F85E-CFA3-E2FE-3A111D0DC0B6')
-      // .pipe(first())
-      // .subscribe(x => {
-      //     console.log(x.age)
-      //     console.log(x.isVaccinated)
-      //     console.log(x.name)
-      // });
-      this.getCats(null);
-  }
 }

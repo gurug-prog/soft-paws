@@ -1,5 +1,5 @@
-<p-table [value]="tableData" [loading]="loading" (onLazyLoad)="getCats($event)" 
-    [paginator]="true" [rows]="5">
+<p-table [value]="tableData" [loading]="loading" [lazy]="true" (onLazyLoad)="getCats($event)" 
+    [paginator]="true" [rows]="5" [totalRecords]="totalRecords">
   <ng-template pTemplate="header">
     <tr>
       <th pSortableColumn="name" style="width:15%">{{ '::CatTable:Name' | abpLocalization }} <p-sortIcon field="name"></p-sortIcon></th>
@@ -19,9 +19,12 @@
       <td>{{ cat.isVaccinated }}</td>
       <td>{{ cat.creationTime | date:"short" }}</td>
       <td>
-        <p-button icon="pi pi-trash" [rounded]="true" severity="danger" (click)="removeCat(cat.id)"></p-button>
+        <p-button icon="pi pi-trash" [rounded]="true" severity="danger" (click)="confirmDeleteCat($event, cat.id)"></p-button>
         <p-button class="ms-2" icon="pi pi-pencil" [rounded]="true" severity="secondary" (click)="rowEdit($event, cat)"></p-button>
       </td>
     </tr>
   </ng-template>
 </p-table>
+
+<p-toast></p-toast>
+<p-confirmDialog></p-confirmDialog>

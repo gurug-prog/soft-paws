@@ -16,6 +16,8 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { CheckboxModule } from 'primeng/checkbox';
 import { CatEditorComponent } from "./cat-editor/cat-editor/cat-editor.component";
+import { ToastModule } from 'primeng/toast';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @NgModule({
     declarations: [
@@ -37,6 +39,8 @@ import { CatEditorComponent } from "./cat-editor/cat-editor/cat-editor.component
         OverlayPanelModule,
         FloatLabelModule,
         CheckboxModule,
+        ConfirmDialogModule,
+        ToastModule,
         CatsManagementRoutingModule
     ]
 })
