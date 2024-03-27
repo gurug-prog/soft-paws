@@ -1,12 +1,17 @@
-<p-table [value]="tableData" [loading]="loading" [lazy]="true" (onLazyLoad)="getCats($event)" 
-    [paginator]="true" [rows]="5" [totalRecords]="totalRecords">
+<p-table [value]="tableData" [loading]="loading" [lazy]="true" (onLazyLoad)="getCats($event)" [paginator]="true"
+  [rows]="5" [totalRecords]="totalRecords">
   <ng-template pTemplate="header">
     <tr>
-      <th pSortableColumn="name" style="width:15%">{{ '::CatTable:Name' | abpLocalization }} <p-sortIcon field="name"></p-sortIcon></th>
-      <th pSortableColumn="age" style="width:10%">{{ '::CatTable:Age' | abpLocalization }} <p-sortIcon field="age"></p-sortIcon></th>
-      <th pSortableColumn="breed" style="width:15%">{{ '::CatTable:Breed' | abpLocalization }} <p-sortIcon field="breed"></p-sortIcon></th>
-      <th pSortableColumn="isVaccinated" style="width:20%">{{ '::CatTable:Vaccinated' | abpLocalization }} <p-sortIcon field="isVaccinated"></p-sortIcon></th>
-      <th pSortableColumn="creationTime" style="width:20%">{{ '::CatTable:CreatedAt' | abpLocalization }} <p-sortIcon field="creationTime"></p-sortIcon></th> 
+      <th pSortableColumn="name" style="width:15%">{{ '::CatTable:Name' | abpLocalization }} <p-sortIcon
+          field="name"></p-sortIcon></th>
+      <th pSortableColumn="age" style="width:10%">{{ '::CatTable:Age' | abpLocalization }} <p-sortIcon
+          field="age"></p-sortIcon></th>
+      <th pSortableColumn="breed" style="width:15%">{{ '::CatTable:Breed' | abpLocalization }} <p-sortIcon
+          field="breed"></p-sortIcon></th>
+      <th class="text-center" pSortableColumn="isVaccinated" style="width:20%">{{ '::CatTable:Vaccinated' |
+        abpLocalization }} <p-sortIcon field="isVaccinated"></p-sortIcon></th>
+      <th pSortableColumn="creationTime" style="width:20%">{{ '::CatTable:CreatedAt' | abpLocalization }} <p-sortIcon
+          field="creationTime"></p-sortIcon></th>
       <th style="width:20%"></th>
     </tr>
   </ng-template>
@@ -16,11 +21,19 @@
       <td>{{ cat.name }}</td>
       <td>{{ cat.age }}</td>
       <td>{{ getBreedName(cat.breed) }}</td>
-      <td>{{ cat.isVaccinated }}</td>
+      <td class="text-center">
+        <ng-container *ngIf="cat.isVaccinated"><i class="fa fa-check" style="color: green;"></i></ng-container>
+        <ng-container *ngIf="!cat.isVaccinated"><i class="fa fa-times" style="color: red;"></i></ng-container>
+        <!-- <ng-template *ngIf="cat.isVaccinated; then vaccinated else notVaccinated"></ng-template>
+        <ng-template #vaccinated><i class="fa fa-check" style="color: green;"></i></ng-template>
+        <ng-template #notVaccinated><i class="fa fa-times" style="color: red;"></i></ng-template> -->
+      </td>
       <td>{{ cat.creationTime | date:"short" }}</td>
       <td>
-        <p-button icon="pi pi-trash" [rounded]="true" severity="danger" (click)="confirmDeleteCat($event, cat.id)"></p-button>
-        <p-button class="ms-2" icon="pi pi-pencil" [rounded]="true" severity="secondary" (click)="rowEdit($event, cat)"></p-button>
+        <p-button icon="pi pi-trash" [rounded]="true" severity="danger"
+          (click)="confirmDeleteCat($event, cat.id)"></p-button>
+        <p-button class="ms-2" icon="pi pi-pencil" [rounded]="true" severity="secondary"
+          (click)="rowEdit($event, cat)"></p-button>
       </td>
     </tr>
   </ng-template>

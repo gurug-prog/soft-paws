@@ -1,8 +1,9 @@
-import { Component, Input,  ViewChild } from '@angular/core';
+import { LocalizationService } from '@abp/ng.core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { CatBreed, CatDto } from '@proxy/cats';
 import { CatService } from '@proxy/controllers';
-import { MessageService } from 'primeng/api';
 import { first } from 'rxjs';
+import { LocalizedMessageService } from 'src/app/services/localized-message.service';
 
 interface Breed {
   catBreed: CatBreed;
@@ -13,7 +14,6 @@ interface Breed {
   selector: 'app-cat-editor',
   templateUrl: './cat-editor.component.html',
   styleUrl: './cat-editor.component.scss',
-  providers: [MessageService]
 })
 export class CatEditorComponent {
   @ViewChild("op") op;
@@ -26,12 +26,11 @@ export class CatEditorComponent {
 
   @Input()
   breedOptions: Breed[];
-
   
-
   constructor(
     private readonly catService: CatService,
-    private messageService: MessageService) {}
+    private readonly localizedMessageService: LocalizedMessageService,
+    private readonly localizationService: LocalizationService) { }
 
   openEditor(event: Event) {
     this.op.toggle(event);
@@ -43,7 +42,7 @@ export class CatEditorComponent {
 
   saveCatDraft() {
     console.dir(this.catDraft.id)
-    if(this.catDraft.id) {
+    if (this.catDraft.id) {
       this.updateCat();
     } else {
       this.createCat();
@@ -58,33 +57,37 @@ export class CatEditorComponent {
 
   updateCat() {
     this.catService.updateCat(this.catDraft)
-    .pipe(first())
-    .subscribe(
-      response => {
-        console.log('Cat updated:', response);
-        this.messageService.add({ severity: 'success', summary: 'Updated', detail: 'You have updated the cat' });
-        this.catDraft = response;
-      },
-      error => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Cannot update the cat' });
-      }
-    );
+      .pipe(first())
+      .subscribe(
+        response => {
+          console.log('Cat updated:', response);
+          this.localizedMessageService.showLocalizedMessage('success', 'Updated', `::CatMessage:CatUpdated`);
+          //this.messageService.add({ severity: 'success', summary: 'Updated', detail: 'You have updated the cat' });
+          this.catDraft = response;
+        },
+        error => {
+          this.localizedMessageService.showLocalizedMessage('error', 'Error', `::CatMessage:CatUpdateError`);
+          //this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Cannot update the cat' });
+        }
+      );
   }
 
   createCat() {
     this.catService.createCat(this.catDraft)
-    .pipe(first())
-    .subscribe(
-      response => {  
-        if (response.id) {
+      .pipe(first())
+      .subscribe(
+        response => {
+          if (response.id) {
             console.log('Cat created:', response);
-            this.messageService.add({ severity: 'success', summary: 'Created', detail: 'You have created the cat' });
+            this.localizedMessageService.showLocalizedMessage('success', 'Created', `::CatMessage:CatCreated`);
+            //this.messageService.add({ severity: 'success', summary: 'Created', detail: 'You have created the cat' });
             this.catDraft = response;
-        } else {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Cannot create the cat' });
-        }
-      },
-    );
+          } else {
+            this.localizedMessageService.showLocalizedMessage('error', 'Error', `::CatMessage:CatCreateError`);
+            //this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Cannot create the cat' });
+          }
+        },
+      );
   }
 
   updateSelectedBreed(selectedBreed: Breed) {

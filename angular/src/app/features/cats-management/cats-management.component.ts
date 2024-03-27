@@ -1,6 +1,5 @@
-import { Component, OnInit, ViewChild  } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CatBreed, CatDto } from '@proxy/cats';
-import { CatService } from '@proxy/controllers';
 import { CatEditorComponent } from './cat-editor/cat-editor/cat-editor.component';
 import { LocalizationService } from '@abp/ng.core';
 import { TableComponent } from './table/table.component';
@@ -29,12 +28,10 @@ export class CatsManagementComponent implements OnInit {
   searchQuery: string;
   breedFilter: CatBreed[] = [];
   @ViewChild(CatEditorComponent) catEditorRef;
-  @ViewChild(TableComponent) tableCompRef;
 
   constructor(
-    private readonly catService: CatService,
     private readonly localizationService: LocalizationService
-    ) {}
+  ) { }
 
   ngOnInit() {
     this.localizedBreeds = Object.keys(CatBreed)
@@ -51,13 +48,11 @@ export class CatsManagementComponent implements OnInit {
     console.dir(`Mangement breed`);
     console.dir(breed);
     this.breedFilter = [breed];
-    this.tableCompRef.refreshTable();
   }
 
   onSearchChange(query: string) {
     console.log("onSearchChange " + query);
     this.searchQuery = query;
-    this.tableCompRef.refreshTable();
   }
 
   createEmptyCat(): TableCat {
@@ -75,7 +70,7 @@ export class CatsManagementComponent implements OnInit {
   }
 
   startEditCat(event: [CatDto, Event]) {
-    if(!event) {
+    if (!event) {
       return;
     }
     const [cat, buttonEvent] = event;
@@ -87,7 +82,7 @@ export class CatsManagementComponent implements OnInit {
   }
 
   startAddCat(event) {
-    if(!event) {
+    if (!event) {
       return;
     }
     this.editorTitle = "Add a cat";

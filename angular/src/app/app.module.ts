@@ -5,7 +5,7 @@ import { IdentityConfigModule } from '@abp/ng.identity/config';
 import { SettingManagementConfigModule } from '@abp/ng.setting-management/config';
 import { TenantManagementConfigModule } from '@abp/ng.tenant-management/config';
 import { ThemeSharedModule } from '@abp/ng.theme.shared';
-import { NgModule } from '@angular/core';
+import { Injector, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { environment } from '../environments/environment';
@@ -17,6 +17,15 @@ import { AbpOAuthModule } from '@abp/ng.oauth';
 import { ThemeLeptonXModule } from '@abp/ng.theme.lepton-x';
 import { SideMenuLayoutModule } from '@abp/ng.theme.lepton-x/layouts';
 import { AccountLayoutModule } from '@abp/ng.theme.lepton-x/account';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { HTTP_ERROR_HANDLER } from '@abp/ng.theme.shared';
+import { HttpErrorResponse } from '@angular/common/http';
+
+  function handleHttpErrors(injector: Injector, httpError: HttpErrorResponse) {
+    console.error(httpError);
+    console.log("HHHHHHHHHHHELOOOOOOOOOOOOOOOOOOOW");
+    return;
+  }
 @NgModule({
   imports: [
     BrowserModule,
@@ -28,20 +37,25 @@ import { AccountLayoutModule } from '@abp/ng.theme.lepton-x/account';
     }),
     AbpOAuthModule.forRoot(),
     ThemeSharedModule.forRoot(),
-    
+
     AccountConfigModule.forRoot(),
     IdentityConfigModule.forRoot(),
     TenantManagementConfigModule.forRoot(),
     SettingManagementConfigModule.forRoot(),
-    
-    
+
+
     FeatureManagementModule.forRoot(),
-              ThemeLeptonXModule.forRoot(),
-              SideMenuLayoutModule.forRoot(),
-              AccountLayoutModule.forRoot(),
+    ThemeLeptonXModule.forRoot(),
+    SideMenuLayoutModule.forRoot(),
+    AccountLayoutModule.forRoot(),
   ],
   declarations: [AppComponent],
-  providers: [APP_ROUTE_PROVIDER],
+  providers: [
+    APP_ROUTE_PROVIDER,
+    MessageService,
+    ConfirmationService,
+    { provide: HTTP_ERROR_HANDLER, useValue: handleHttpErrors }
+  ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }
